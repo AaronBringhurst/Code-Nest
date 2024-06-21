@@ -1,0 +1,13 @@
+<header>
+    <h1>Welcom to Code Nest</h1>
+    <nav class="navatron">
+        <ul>
+            <li class="home"><a href="#">Home</a></li>
+            <li class="home"><a href="#">Dashboard</a></li>
+            <li class="home"><a href="#">Login</a></li>
+            {{#if isLoggedIn}}
+            <li class="home" hidden><a href="#">Logout</a></li>
+            {{/if}}
+        </ul>
+    </nav>
+</header>
