@@ -1,9 +1,8 @@
-<!-- views/homepage.handlebars -->
-<h1>Welcome to Code Nest!</h1>
-<p>This is the home of your new web development-focused site. Here you can find resources, articles, and forums discussing all things web development.</p>
-
+{{#each posts}}
 <section>
-    <h2>Featured Articles</h2>
-    <p>Check out our latest articles on web development trends, tools, and frameworks.</p>
-    <!-- More content can be added here -->
+    <h2>{{title}}</h2>
+    <p>{{body}}</p>
+    <p>Posted By: {{user.username}}</p>
+    <p>Posted On: {{date}}</p>
 </section>
+{{/each}}

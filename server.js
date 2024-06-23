@@ -45,14 +45,19 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(routes);
 
-async function startServer (){
-  try{
-    app.listen(PORT, () =>{
-      console.log(`Server is now listining on PORTSKI ${PORT}`)
+const startServer = async () => {
+  try {
+    await new Promise((resolve, reject) => {
+      const server = app.listen(PORT, () => {
+        console.log(`Server is listening on port ${PORT}`);
+        resolve(server);
+      }).on('error', (err) => {
+        reject(err);
+      });
     });
-  } catch (err){
-    console.log('Somthing no workie, i no like, check stuff and god speed hombre:', err);
+  } catch (error) {
+    console.error('Failed to start the server:', error);
   }
-}
+};
 
 startServer();
