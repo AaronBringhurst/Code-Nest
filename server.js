@@ -47,12 +47,6 @@ app.use(routes);
 
 async function startServer (){
   try{
-    await sequelize.authenticate();
-    console.log('Connection to the Database workie gud');
-
-    await sequelize.sync({ force: true });
-    console.log('Database synchronized with Dark Magic')
-
     app.listen(PORT, () =>{
       console.log(`Server is now listining on PORTSKI ${PORT}`)
     });

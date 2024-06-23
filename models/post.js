@@ -1,5 +1,5 @@
+const Sequelize = require('./config/connection');
 const { Model, DataTypes } = require("sequelize");
-const sequelize = require('../config/connection');
 
 class Post extends Model{}
 
@@ -10,6 +10,10 @@ Post.init(
             allowNull: false,
             autoIncrement: true,
         },
+        username:{
+            type: DataTypes.STRING(69),
+            allowNull: false,
+        },    
         title: {
             type: DataTypes.STRING(69),
             allowNull: false
