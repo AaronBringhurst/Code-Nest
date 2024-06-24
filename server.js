@@ -4,7 +4,7 @@ import express from 'express';
 import session from 'express-session';
 import exphbs from 'express-handlebars';
 import routes from './controllers/index.js';
-import helpers from './utils/helpers/funtime1.js';
+import * as helpers from './utils/helpers/funtime1.js';
 import sequelize from './config/connection.js';
 import connectSessionSequelize from 'connect-session-sequelize';
 

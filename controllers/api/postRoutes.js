@@ -1,6 +1,6 @@
 
 import express from 'express';
-import { Post } from '../../models';
+import { Post } from '../../models/index.js';
 
 const router = express.Router();
 
