@@ -1,20 +1,22 @@
-const { Model, DataTypes } = require("sequelize");
+// ESM import syntax for Sequelize dependencies
+import { Model, DataTypes } from 'sequelize';
+import sequelize from '../config/connection.js';  // Make sure this path is correct
 
-class User extends Model {
-}
-
+class User extends Model {}
 
 User.init(
     {
         user_id: {
             type: DataTypes.INTEGER,
-            allowNull: false
+            allowNull: false,
+            primaryKey: true,  // Assume it's a primary key
+            autoIncrement: true  // Assume it needs auto increment
         },
-        name:{
+        name: {
             type: DataTypes.STRING(69),
             allowNull: false
         },
-        username:{
+        username: {
             type: DataTypes.STRING(69),
             allowNull: false
         },
@@ -26,7 +28,12 @@ User.init(
             type: DataTypes.STRING(255),
             allowNull: false
         },
+    },
+    {
+        sequelize,  // Add sequelize instance
+        modelName: 'User'  // Add model name
     }
-)
+);
 
-module.exports = User;
+// ESM export syntax
+export default User;

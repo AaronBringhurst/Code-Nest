@@ -1,18 +1,17 @@
-const path = require('path');
-const express = require('express');
-const session = require('express-session');
-const exphbs = require('express-handlebars');
-const routes = require('./controllers');
-helpers = require('./utils/helpers/funtime1');
+// ESM import syntax
+import path from 'path';
+import express from 'express';
+import session from 'express-session';
+import exphbs from 'express-handlebars';
+import routes from './controllers/index.js';
+import helpers from './utils/helpers/funtime1.js';
+import sequelize from './config/connection.js';
+import connectSessionSequelize from 'connect-session-sequelize';
 
-const sequelize = require('./config/connection');
-
-// Create a new sequelize store using the express-session package
-const SequelizeStore = require('connect-session-sequelize')(session.Store);
+const SequelizeStore = connectSessionSequelize(session.Store);
 
 const app = express();
 const PORT = process.env.PORT || 3001;
-
 
 const hbs = exphbs.create({
   defaultLayout: 'main',
@@ -36,12 +35,11 @@ app.use(session(sess));
 
 app.engine('handlebars', hbs.engine);  // Make sure to use 'hbs.engine' directly
 app.set('view engine', 'handlebars');
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(path.resolve(), 'views'));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, 'public')));
-
+app.use(express.static(path.join(path.resolve(), 'public')));
 
 app.use(routes);
 

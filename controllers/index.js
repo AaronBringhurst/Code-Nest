@@ -1,10 +1,12 @@
+// ESM import syntax
+import express from 'express';
+import apiRoutes from './api/index.js';
+import homepageRoutes from './homepageRoutes.js';
 
-const router = require('express').Router();
-const apiRoutes = require('./api');
-const appRoutes = require('./api/appRoutes')
-
+const router = express.Router();
 
 router.use('/api', apiRoutes);
-router.use('/', appRoutes);
+router.use('/', homepageRoutes);
 
-module.exports = router;
+// ESM export syntax
+export default router;
