@@ -1,6 +1,6 @@
-const sequelize = require('../config/connection');
-const seedUsers = require('./users');
-const seedPosts = require('./posts');
+import sequelize from "../config/connection";
+import seedUsers from "./seedUsers";
+import seedPosts from "./seedPosts";
 
 const seedAll = async () => {
     try{

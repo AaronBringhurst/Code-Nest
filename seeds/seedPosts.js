@@ -1,5 +1,5 @@
 
-const { Post } = require ('../models');
+import { Post } from "../models";
 
 const postData = [
     {
@@ -46,7 +46,7 @@ const postData = [
     }
 ];
 
-const seedPostData = async () => {
+const seedPosts = async () => {
     try{
         await Post.bulkCreate (postData);
         console.log('Posts have been seeded');
@@ -55,4 +55,4 @@ const seedPostData = async () => {
     }
 }
 
-module.exports = seedPostData;
+module.exports = seedPosts;

@@ -1,5 +1,5 @@
 
-const { User } = require ('../models');
+import { User } from "../models";
 
 const userData = [
     {
