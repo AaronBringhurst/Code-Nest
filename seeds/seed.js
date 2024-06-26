@@ -1,6 +1,6 @@
-import sequelize from "../config/connection";
-import seedUsers from "./seedUsers";
-import seedPosts from "./seedPosts";
+import sequelize from "../config/connection.js";
+import seedUsers from "./seedUsers.js";
+import seedPosts from "./seedPosts.js";
 
 const seedAll = async () => {
     try{

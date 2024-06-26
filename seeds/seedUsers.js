@@ -1,5 +1,5 @@
 
-import { User } from "../models";
+import User from "../models/user.js";
 
 const userData = [
     {
@@ -34,4 +34,4 @@ const seedUsers = async () => {
     }
 }
 
-module.exports = seedUsers;
+export default seedUsers;

@@ -1,5 +1,5 @@
 
-import { Post } from "../models";
+import Post from "../models/post.js";
 
 const postData = [
     {
@@ -55,4 +55,4 @@ const seedPosts = async () => {
     }
 }
 
-module.exports = seedPosts;
+export default seedPosts;

@@ -1,4 +1,4 @@
-// ESM import syntax
+
 import User from './user.js';
 import Post from './post.js';
 
@@ -12,5 +12,5 @@ Post.belongsTo(User, {
     onDelete: 'CASCADE'
 });
 
-// ESM export syntax
+
 export { User, Post };

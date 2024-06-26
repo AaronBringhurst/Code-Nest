@@ -1,7 +1,7 @@
-// Import the necessary module
+
 import moment from 'moment';
 
-// Utility functions
+
 const formatDate = (date, format) => {
     return moment(date).format(format);
 };
@@ -18,5 +18,5 @@ const debug = (obj) => {
     return JSON.stringify(obj, null, 2);
 };
 
-// Export all utility functions
+
 export { formatDate, capitalize, lowerCase, debug };

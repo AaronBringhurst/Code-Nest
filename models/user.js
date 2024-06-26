@@ -1,6 +1,6 @@
-// ESM import syntax for Sequelize dependencies
+
 import { Model, DataTypes } from 'sequelize';
-import sequelize from '../config/connection.js';  // Make sure this path is correct
+import sequelize from '../config/connection.js';
 
 class User extends Model {}
 
@@ -9,8 +9,8 @@ User.init(
         user_id: {
             type: DataTypes.INTEGER,
             allowNull: false,
-            primaryKey: true,  // Assume it's a primary key
-            autoIncrement: true  // Assume it needs auto increment
+            primaryKey: true,
+            autoIncrement: true
         },
         name: {
             type: DataTypes.STRING(69),
@@ -25,13 +25,13 @@ User.init(
             allowNull: false
         },
         password: {
-            type: DataTypes.STRING(255),
+            type: DataTypes.STRING(69),
             allowNull: false
         },
     },
     {
-        sequelize,  // Add sequelize instance
-        modelName: 'User'  // Add model name
+        sequelize,
+        modelName: 'User'
     }
 );
 
