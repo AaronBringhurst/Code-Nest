@@ -16,13 +16,17 @@ const PORT = process.env.PORT || 3001;
 const hbs = exphbs.create({
   defaultLayout: 'main',
   partialsDir: ['views/partials/'],
-  helpers // This will incorporate your custom helpers
+  helpers 
 });
 
 // Configure and link a session object with the sequelize store
 const sess = {
-  secret: 'Super secret secret',
-  cookie: {},
+  secret: process.env.SESSION_SECRET,
+  cookie: {
+    maxAge: 696969,
+    sameSite: 'strict',
+    httpOnly: true,
+  },
   resave: false,
   saveUninitialized: false,
   store: new SequelizeStore({
@@ -33,7 +37,7 @@ const sess = {
 // Add express-session and store as Express.js middleware
 app.use(session(sess));
 
-app.engine('handlebars', hbs.engine);  // Make sure to use 'hbs.engine' directly
+app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
 app.set('views', path.join(path.resolve(), 'views'));
 
