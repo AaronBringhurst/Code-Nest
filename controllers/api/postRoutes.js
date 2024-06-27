@@ -15,7 +15,7 @@ router.post('/', async (req, res) => {
         res.status(201).json(newPost);
         // Implementation needed
     } catch (err) {
-        res.status(500).send('error creating post');
+        res.status(500).json({ message: 'you dun messed up A-A-RON'});
     }
 });
 
@@ -32,7 +32,7 @@ router.delete('/:id', async (req, res) => {
             res.status(418).send('lol that doesnt exist');
         }
     } catch (err) {
-        res.status(500).send('error deleting post');
+        res.status(500).json({ message: 'you dun messed up A-A-RON'});
     }
 });
 
