@@ -14,3 +14,4 @@ Post.belongsTo(User, {
 
 
 export { User, Post };
+export default { User, Post};

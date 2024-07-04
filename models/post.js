@@ -28,10 +28,18 @@ Post.init(
             type: DataTypes.DATE,
             allowNull: true
         },
+        user_id: {
+            type: DataTypes.INTEGER,
+            references: {
+                model: 'User',
+                key: 'user_id',
+            },
+        },
     },
     {
         sequelize,
-        modelName: 'Post'
+        modelName: 'Post',
+        freezeTableName: true
     }
 );
 

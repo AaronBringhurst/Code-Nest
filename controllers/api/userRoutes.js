@@ -1,7 +1,7 @@
 
 import express from 'express';
 import User from '../../models/index.js';
-import { where } from 'sequelize';
+
 
 const router = express.Router();
 

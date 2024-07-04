@@ -8,5 +8,4 @@ const router = express.Router();
 router.use('/api', apiRoutes);
 router.use('/', homepageRoutes);
 
-
 export default router;

@@ -1,0 +1,18 @@
+{{> header}}
+<main class="container">
+  <h1>{{post.title}}</h1>
+  <p>{{post.body}}</p>
+  <p>Posted by {{post.user.username}} on {{formatDate post.createdAt}}</p>
+  <h3>Comments</h3>
+  {{#each post.comments}}
+    <div class="comment">
+      <p>{{this.body}}</p>
+      <p>Comment by {{this.user.username}} on {{formatDate this.createdAt}}</p>
+    </div>
+  {{/each}}
+  <form action="/posts/{{post.id}}/comments" method="POST">
+    <textarea name="comment" required></textarea>
+    <button type="submit">Add Comment</button>
+  </form>
+</main>
+{{> footer}}

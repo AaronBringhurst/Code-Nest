@@ -1,11 +1,14 @@
 
 import express from 'express';
-import Post from '../../models/index.js';
+import { Post } from '../../models/index.js';
 
 const router = express.Router();
 
-router.post('/', async (req, res) => {
+router.post('/create', async (req, res) => {
     try {
+
+        console.log('Request body:', req.body);
+
         const newPost = await Post.create({
             username: req.body.username,
             title: req.body.title,
@@ -15,11 +18,14 @@ router.post('/', async (req, res) => {
         res.status(201).json(newPost);
         // Implementation needed
     } catch (err) {
+
+        console.error('Error creating post:', err);
+        
         res.status(500).json({ message: 'you dun messed up A-A-RON'});
     }
 });
 
-router.delete('/:id', async (req, res) => {
+router.delete('/delete:id', async (req, res) => {
     try {
         const result = await Post.destroy({
             where: {

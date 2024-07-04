@@ -21,6 +21,9 @@ if (process.env.DB_URL) {
     {
       host: 'localhost',
       dialect: 'postgres',
+      define: {
+        freezeTableName: true
+      }
     }
   );
 }
