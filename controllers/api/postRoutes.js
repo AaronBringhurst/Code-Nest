@@ -8,6 +8,9 @@ router.post('/create', async (req, res) => {
     try {
 
         console.log('Request body:', req.body);
+        if (!req.body.username || !req.body.title || !req.body.body) {
+            return res.status(400).json({ message: 'All fields are required.' });
+        }
 
         const newPost = await Post.create({
             username: req.body.username,
@@ -16,16 +19,13 @@ router.post('/create', async (req, res) => {
             date: req.body.date
         });
         res.status(201).json(newPost);
-        // Implementation needed
     } catch (err) {
-
         console.error('Error creating post:', err);
-        
         res.status(500).json({ message: 'you dun messed up A-A-RON'});
     }
 });
 
-router.delete('/delete:id', async (req, res) => {
+router.delete('/delete/:id', async (req, res) => {
     try {
         const result = await Post.destroy({
             where: {
@@ -41,6 +41,7 @@ router.delete('/delete:id', async (req, res) => {
         res.status(500).json({ message: 'you dun messed up A-A-RON'});
     }
 });
+
 
 
 export default router;

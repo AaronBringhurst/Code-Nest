@@ -1,13 +1,13 @@
-{{> header}}
+
 <main class="container">
   {{#each posts}}
     <article>
-      <h2><a href="/posts/{{this.id}}">{{this.title}}</a></h2>
-      <p>Posted by {{this.user.username}} on {{formatDate this.createdAt}}</p>
-      <p>{{truncate this.body 120}}</p>
+      <h2>{{title}}</h2>
+      <p>{{body}}</p>
+      <p>Posted by: {{username}}</p>
     </article>
   {{else}}
     <p>No posts found.</p>
   {{/each}}
 </main>
-{{> footer}}
+

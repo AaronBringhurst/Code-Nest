@@ -6,17 +6,33 @@ const router = express.Router();
 
 router.post('/register', async (req, res) => {
     try {
-        const hashedPassword = await bcrypt.hash(req.body.password, 10);
+        const { username, email, password } = req.body;
+
+        if (!email || !username || !password) {
+            return res.status(400).json({ message: 'All fields are required' });
+        }
+
+        if (!email.includes('@')) {
+            return res.status(400).json({ message: 'Invalid email format' });
+        }
+
+        if (password.length < 8) {
+            return res.status(400).json({ message: 'Password must be at least 8 characters long' });
+        }
+
+        const hashedPassword = await bcrypt.hash(password, 10);
         const newUser = await User.create({
-            username: req.body.username,
-            email: req.body.email,
+            username,
+            email,
             password: hashedPassword
         });
-        res.status(201).json({ message: 'User registered successfully', user: newUser });
+        res.status(201).json({ message: 'User registered successfully', user: { id: newUser.id, username: newUser.username, email: newUser.email } });
     } catch (error) {
-        res.status(500).json({ message: 'Error registering user', error: error.message });
+        console.error('Registration error:', error);
+        res.status(500).json({ message: 'Error registering user' });
     }
 });
+
 
 router.post('/login', async (req, res) => {
     try {
