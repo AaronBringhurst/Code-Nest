@@ -42,6 +42,28 @@ router.delete('/delete/:id', async (req, res) => {
     }
 });
 
+router.get('/', async (req, res) => {
+    try {
+        const posts = await Post.findAll();
+        res.status(200).json(posts);
+    } catch (err) {
+        console.error('Error fetching posts:', err);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+});
+
+router.get('/:post_id', async (req, res) => {
+    try {
+        const post = await Post.findOne({ where: { post_id: req.params.post_id } });
+        if (!post) {
+            return res.status(404).json({ message: 'Post not found' });
+        }
+        res.status(200).json(post);
+    } catch (err) {
+        console.error('Error fetching post:', err);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+});
 
 
 export default router;

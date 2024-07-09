@@ -49,6 +49,9 @@ router.post('/login', async (req, res) => {
         req.session.userId = user.user_id;
         req.session.username = user.username;
         req.session.loggedIn = true;
+
+        console.log('Session Data after login:', req.session);
+
         return res.redirect("/");
     } catch (err) {
         console.error('Login error:', err);
@@ -60,13 +63,16 @@ router.post('/login', async (req, res) => {
 //route to logout
 router.get('/logout', async (req, res) => {
     try {
-        console.log (req.session);
+        console.log('Session Data before logout:', req.session);
         req.session.destroy((err) => {
-            if (err) throw err;
-            res.redirect('/login'); // Redirect to login page after logout
+            if (err) {
+                console.error('Error destroying session:', err);
+                return res.status(500).json({ message: 'Internal server error' });
+            }
+            res.redirect('/');
         });
     } catch (err) {
-        res.status(500).json({ message: 'you dun messed up A-A-RON' });
+        res.status(500).json({ message: 'Internal server error' });
     }
 });
 
