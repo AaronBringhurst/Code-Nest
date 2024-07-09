@@ -19,7 +19,7 @@ Comment.init({
     }
 }, {
     sequelize,
-    modelName: 'Comment',
+    modelName: 'comment',
     timestamps: true,
     underscored: true
 });

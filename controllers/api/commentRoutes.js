@@ -11,16 +11,14 @@ router.post('/:postId', async (req, res) => {
         if (!content) {
             return res.status(400).json({ message: 'Content is required' });
         }
-
         // Optional: Check if the post exists before adding a comment
         const post = await Post.findByPk(postId);
         if (!post) {
             return res.status(404).json({ message: 'Post not found' });
         }
-
         const newComment = await Comment.create({
             content,
-            userId, // This should come from session or token verification in a real app
+            userId,
             postId
         });
 

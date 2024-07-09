@@ -1,13 +1,13 @@
 
 <main class="container">
-  {{#each posts}}
-    <article>
-      <h2>{{title}}</h2>
-      <p>{{body}}</p>
-      <p>Posted by: {{username}}</p>
-    </article>
-  {{else}}
-    <p>No posts found.</p>
-  {{/each}}
+
+    {{#each posts}}
+        <div>
+            <h2>{{this.title}}</h2>
+            <p>{{this.body}}</p>
+            <p>Posted by: {{this.username}}</p>
+            <p>Date: {{this.date}}</p>
+        </div>
+    {{/each}}
 </main>
 

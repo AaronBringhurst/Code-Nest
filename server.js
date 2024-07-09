@@ -1,3 +1,4 @@
+const PORT = process.env.PORT || 3001;
 // ESM import syntax
 import path from 'path';
 import express from 'express';
@@ -10,8 +11,9 @@ import connectSessionSequelize from 'connect-session-sequelize';
 
 const SequelizeStore = connectSessionSequelize(session.Store);
 
+
 const app = express();
-const PORT = process.env.PORT || 3001;
+
 
 const hbs = exphbs.create({
   defaultLayout: 'main',
@@ -21,11 +23,10 @@ const hbs = exphbs.create({
 
 // Configure and link a session object with the sequelize store
 const sess = {
-  secret: process.env.SESSION_SECRET,
+  secret: process.env.SESSION_SECRET || 'a_default_secret',
   cookie: {
-    maxAge: 696969,
+    maxAge: 6969 * 420,
     sameSite: 'strict',
-    httpOnly: true,
   },
   resave: false,
   saveUninitialized: false,
@@ -49,6 +50,9 @@ app.use(routes);
 
 const startServer = async () => {
   try {
+    await sequelize.sync({ force: false });
+    console.log('Database synchronized');
+
     await new Promise((resolve, reject) => {
       const server = app.listen(PORT, () => {
         console.log(`Server is listening on port ${PORT}`);

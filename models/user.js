@@ -13,30 +13,29 @@ User.init(
             autoIncrement: true
         },
         name: {
-            type: DataTypes.STRING(69),
+            type: DataTypes.STRING,
             allowNull: false
         },
         username: {
-            type: DataTypes.STRING(69),
+            type: DataTypes.STRING,
             allowNull: false
         },
         email: {
-            type: DataTypes.STRING(69),
+            type: DataTypes.STRING,
             allowNull: false
         },
         password: {
-            type: DataTypes.STRING(69),
+            type: DataTypes.STRING,
             allowNull: false
         },
     },
     {
         sequelize,
-        modelName: 'User',
+        modelName: 'user',
         timestamps: false,
         freezeTableName: true,
         underscored: true
     }
 );
 
-// ESM export syntax
 export default User;

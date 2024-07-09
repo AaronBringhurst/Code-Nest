@@ -3,21 +3,18 @@ import User from "../models/user.js";
 
 const userData = [
     {
-        user_id: 1,
         name: "Alice Crypto",
         username: "alicecrypto",
         email: "alice@example.com",
         password: "securepassword123"
     },
     {
-        user_id: 2,
         name: "Bob Blockchain",
         username: "bobbchain",
         email: "bob@example.com",
         password: "passwordsecure456"
     },
     {
-        user_id: 3,
         name: "Carol Coin",
         username: "carolcoin",
         email: "carol@example.com",

@@ -1,12 +1,14 @@
 <header>
-    <h1>Welcom to Code Nest</h1>
+    <h1>Welcome to Code Nest</h1>
     <nav class="navatron">
         <ul>
-            <li class="home"><a href="#">Home</a></li>
-            <li class="home"><a href="#">Dashboard</a></li>
-            <li class="home"><a href="#">Login</a></li>
-            {{#if isLoggedIn}}
-            <li class="home" hidden><a href="#">Logout</a></li>
+            <li class="nav-item"><a href="/">Home</a></li>
+            <li class="nav-item"><a href="/dashboard">Dashboard</a></li>
+            {{#unless loggedIn}}
+            <li class="nav-item"><a href="/login">Login</a></li>
+            {{/unless}}
+            {{#if loggedIn}}
+            <li class="nav-item"><a href="/logout">Logout</a></li>
             {{/if}}
         </ul>
     </nav>

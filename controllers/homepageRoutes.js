@@ -10,7 +10,10 @@ router.get('/', async (req, res) => {
         const plainPosts = posts.map(post => post.get({ plain: true }));
 
         // Render the homepage with posts data
-        res.render('homepage', { posts: plainPosts });
+        res.render('homepage', { 
+            posts: plainPosts,
+            loggedIn : req.session.loggedIn
+        });
     } catch (error) {
         console.error('Error fetching posts:', error);
         // Handle errors gracefully, possibly rendering an error page or passing an error message
@@ -18,6 +21,31 @@ router.get('/', async (req, res) => {
     }
 });
 
+router.get('/login', (req, res) => {
+    res.render('login', { title: 'Login' });
+});
 
+router.get('/dashboard', async (req, res) => {
+    if (!req.session.user_id) {
+        // User is not logged in
+        res.redirect('/login');
+    } else {
+        // User is logged in
+        try {
+            const posts = await Post.findAll({
+                where: {
+                    userId: req.session.userId // Assuming you store userId in session upon login
+                }
+            });
+            res.render('dashboard', {
+                posts: posts,
+                username: req.session.username // Assuming username is also stored in session
+            });
+        } catch (error) {
+            console.error('Error fetching posts:', error);
+            res.status(500).render('error', { error: 'Failed to load dashboard' });
+        }
+    }
+});
 
 export default router;

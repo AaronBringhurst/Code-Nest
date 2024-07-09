@@ -1,0 +1,12 @@
+<main>
+  <h2>Your Posts</h2>
+  {{#if posts.length}}
+    <ul>
+      {{#each posts}}
+        <li>{{this.title}} - {{this.body}}</li>
+      {{/each}}
+    </ul>
+  {{else}}
+    <p>You have no posts yet.</p>
+  {{/if}}
+</main>

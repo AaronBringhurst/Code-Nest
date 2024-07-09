@@ -1,52 +1,66 @@
-
+import bcrypt from 'bcrypt';
 import express from 'express';
 import { User } from '../../models/index.js';
-
+import sequelize from 'sequelize';
 
 const router = express.Router();
 
 router.post('/signup', async (req, res) => {
     try {
-        const { username, email, password } = req.body;
-        if (!username || !email || !password) {
+        const { username, email, password, name } = req.body;
+        if (!username || !email || !password || !name) {
             return res.status(400).json({ message: 'All fields are required.' });
         }
-        const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(password, salt);
-
+        const existingUser = await User.findOne({ where: { [sequelize.Op.or]: [{ username }, { email }] } });
+        if (existingUser) {
+            return res.status(400).json({ message: 'Username or email already exists' });
+        }
+        const hashedPassword = await bcrypt.hash(password, 10);
         const newUser = await User.create({
             username,
             email,
+            name,
             password: hashedPassword
         });
-        res.status(201).json({ message: 'User created successfully', user: newUser });
+        req.session.user_id = newUser.id;
+        req.session.username = newUser.username;
+        req.session.loggedIn = true;
+        return res.redirect("/");
     } catch (err) {
-        if (err.name === 'SequelizeUniqueConstraintError') {
-            res.status(400).json({ message: 'Username or email already exists' });
-        } else {
-            res.status(500).json({ message: 'you dun messed up A-A-RON' });
-        }
+        console.error('Signup error:', err);
+        res.status(500).json({ message: 'Internal server error' });
     }
 });
 
 router.post('/login', async (req, res) => {
     try {
-        const { email, password } = req.body;
-        const user = await User.findOne({ where: { email } });
-        if (!user || !(await bcrypt.compare(password, user.password))) {
-            return res.status(401).json({ message: 'Invalid email or password' });
+        const { username, password } = req.body;
+        const user = await User.findOne({ where: { username } });
+
+        if (!user) {
+            console.log('User not found:', username);
+            return res.status(401).json({ message: 'Invalid username or password' });
         }
-        // Assuming session management here
-        req.session.userId = user.id; // Set user ID to session
-        res.json({ message: 'Logged in successfully' });
+        const validPassword = await bcrypt.compare(password, user.password);
+        if (!validPassword) {
+            console.log('Invalid password for user:', username);
+            return res.status(401).json({ message: 'Invalid username or password' });
+        }
+        req.session.userId = user.user_id;
+        req.session.username = user.username;
+        req.session.loggedIn = true;
+        return res.redirect("/");
     } catch (err) {
-        res.status(500).json({ message: 'you dun messed up A-A-RON' });
+        console.error('Login error:', err);
+        res.status(500).json({ message: 'Internal server error' });
     }
 });
+
 
 //route to logout
 router.get('/logout', async (req, res) => {
     try {
+        console.log (req.session);
         req.session.destroy((err) => {
             if (err) throw err;
             res.redirect('/login'); // Redirect to login page after logout
