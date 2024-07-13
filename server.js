@@ -46,20 +46,18 @@ app.use(express.static(path.join(path.resolve(), "public")));
 
 app.use(routes);
 
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send('YOU DUN MESSED UP A-A-RON!!!');
+});
+
 const startServer = async () => {
   try {
     await sequelize.sync({ force: false });
     console.log("Database synchronized");
 
-    await new Promise((resolve, reject) => {
-      const server = app
-        .listen(PORT, () => {
-          console.log(`Server is listening on port ${PORT}`);
-          resolve(server);
-        })
-        .on("error", (err) => {
-          reject(err);
-        });
+    app.listen(PORT, () => {
+      console.log(`Server is listening on port ${PORT}`);
     });
   } catch (error) {
     console.error("Failed to start the server:", error);

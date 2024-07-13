@@ -8,7 +8,15 @@ const formatDate = (date) => {
     return `${month}-${day}-${year}`;
 };
 
-// Register the helper with Handlebars
-Handlebars.registerHelper('formatDate', formatDate);
+const truncate = (text, length) => {
+    if (text.length > length) {
+        return text.substring(0, length) + '...';
+    }
+    return text;
+};
 
-export { formatDate };
+// Register the helpers with Handlebars
+Handlebars.registerHelper('formatDate', formatDate);
+Handlebars.registerHelper('truncate', truncate);
+
+export { formatDate, truncate };

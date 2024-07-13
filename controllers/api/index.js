@@ -13,4 +13,5 @@ router.use('/auth', authRoutes);
 router.use('/posts', postRoutes);
 router.use('/comment', commentRoutes);
 
+
 export default router;

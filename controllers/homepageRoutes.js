@@ -6,8 +6,14 @@ const router = express.Router();
 router.get('/', async (req, res) => {
     try {
         // Fetch all posts and convert them to plain objects
-        const posts = await Post.findAll();
+        const posts = await Post.findAll({
+            attributes: ['post_id', 'title', 'body', 'user_id', 'createdAt'],
+            order: [['createdAt', 'DESC']] 
+        });
+        
         const plainPosts = posts.map(post => post.get({ plain: true }));
+
+        console.log('Posts being sent to template:', JSON.stringify(plainPosts, null, 2));
 
         // Render the homepage with posts data
         res.render('homepage', { 
