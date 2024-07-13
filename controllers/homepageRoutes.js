@@ -31,6 +31,10 @@ router.get('/login', (req, res) => {
     res.render('login', { title: 'Login' });
 });
 
+router.get('/about', (req, res) => {
+    res.render('about');
+  });
+
 router.get('/dashboard', async (req, res) => {
     if (!req.session.user_id) {
         // User is not logged in

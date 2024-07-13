@@ -1,15 +1,41 @@
-<header>
-    <h1>Welcome to Code Nest</h1>
-    <nav class="navatron">
-        <ul>
-            <li class="nav-item"><a href="/">Home</a></li>
-            <li class="nav-item"><a href="/dashboard">Dashboard</a></li>
-            {{#unless loggedIn}}
-            <li class="nav-item"><a href="/login">Login</a></li>
-            {{/unless}}
-            {{#if loggedIn}}
-            <li class="nav-item"><a href="/api/users/logout">Logout</a></li>
-            {{/if}}
-        </ul>
-    </nav>
+<header class="bg-white shadow-md">
+  <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center py-6">
+      <div class="flex items-center">
+        <a href="/" class="flex items-center">
+          <img src="/images/code-nest-logo.png" alt="Code Nest Logo" class="h-16 sm:h-20 w-auto mr-4">
+          <span class="text-3xl font-bold text-gray-900">Code Nest</span>
+        </a>
+      </div>
+      <div class="hidden md:flex md:space-x-8">
+        <a href="/" class="text-gray-900 hover:text-indigo-600 px-3 py-2 rounded-md text-lg font-medium">Home</a>
+        <a href="/dashboard" class="text-gray-500 hover:text-indigo-600 px-3 py-2 rounded-md text-lg font-medium">Dashboard</a>
+        <a href="/about" class="text-gray-500 hover:text-indigo-600 px-3 py-2 rounded-md text-lg font-medium">About</a>
+        {{#if loggedIn}}
+          <a href="/api/users/logout" class="text-gray-500 hover:text-indigo-600 px-3 py-2 rounded-md text-lg font-medium">Logout</a>
+        {{else}}
+          <a href="/login" class="text-gray-500 hover:text-indigo-600 px-3 py-2 rounded-md text-lg font-medium">Login</a>
+          {{/if}}
+      </div>
+      <div class="md:hidden">
+        <button id="menu-toggle" class="text-gray-500 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
+          <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
+    </div>
+    <div id="mobile-menu" class="hidden md:hidden">
+      <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+        <a href="/" class="text-gray-900 hover:text-indigo-600 block px-3 py-2 rounded-md text-base font-medium">Home</a>
+        <a href="/dashboard" class="text-gray-500 hover:text-indigo-600 block px-3 py-2 rounded-md text-base font-medium">Dashboard</a>
+        <a href="/about" class="text-gray-500 hover:text-indigo-600 block px-3 py-2 rounded-md text-base font-medium">About</a>
+        {{#if loggedIn}}
+          <a href="/api/users/logout" class="text-gray-500 hover:text-indigo-600 block px-3 py-2 rounded-md text-base font-medium">Logout</a>
+        {{else}}
+          <a href="/login" class="text-gray-500 hover:text-indigo-600 block px-3 py-2 rounded-md text-base font-medium">Login</a>
+          {{/if}}
+      </div>
+    </div>
+  </nav>
 </header>
