@@ -9,12 +9,19 @@ router.post('/signup', async (req, res) => {
     try {
         const { username, email, password, name } = req.body;
         if (!username || !email || !password || !name) {
-            return res.status(400).json({ message: 'All fields are required.' });
+            return res.status(400).render('login', { error: 'All fields are required.' });
         }
-        const existingUser = await User.findOne({ where: { [sequelize.Op.or]: [{ username }, { email }] } });
+
+        const existingUser = await User.findOne({ 
+            where: { 
+                [sequelize.Op.or]: [{ username }, { email }] 
+            } 
+        });
+
         if (existingUser) {
-            return res.status(400).json({ message: 'Username or email already exists' });
+            return res.status(400).render('login', { error: 'Username or email already exists' });
         }
+
         const hashedPassword = await bcrypt.hash(password, 10);
         const newUser = await User.create({
             username,
@@ -22,43 +29,49 @@ router.post('/signup', async (req, res) => {
             name,
             password: hashedPassword
         });
+
+        // Automatically log in the user
         req.session.user_id = newUser.id;
         req.session.username = newUser.username;
-        req.session.loggedIn = true;
-        return res.redirect("/");
+        req.session.logged_in = true;
+
+        // Save the session before redirecting
+        req.session.save(() => {
+            res.redirect('/');
+        });
     } catch (err) {
         console.error('Signup error:', err);
-        res.status(500).json({ message: 'Internal server error' });
+        res.status(500).render('login', { error: 'An error occurred during signup. Please try again.' });
     }
 });
 
 router.post('/login', async (req, res) => {
     try {
-        const { username, password } = req.body;
-        const user = await User.findOne({ where: { username } });
-
-        if (!user) {
-            console.log('User not found:', username);
-            return res.status(401).json({ message: 'Invalid username or password' });
-        }
-        const validPassword = await bcrypt.compare(password, user.password);
-        if (!validPassword) {
-            console.log('Invalid password for user:', username);
-            return res.status(401).json({ message: 'Invalid username or password' });
-        }
-        req.session.userId = user.user_id;
-        req.session.username = user.username;
-        req.session.loggedIn = true;
-
-        console.log('Session Data after login:', req.session);
-
-        return res.redirect("/");
+      const { username, password } = req.body;
+      const user = await User.findOne({ where: { username } });
+  
+      if (!user) {
+        return res.status(400).render('login', { error: 'Incorrect username or password' });
+      }
+  
+      const validPassword = await bcrypt.compare(password, user.password);
+  
+      if (!validPassword) {
+        return res.status(400).render('login', { error: 'Incorrect username or password' });
+      }
+  
+      req.session.user_id = user.user_id;
+      req.session.username = user.username;
+      req.session.logged_in = true;
+  
+      res.redirect('/'); // Redirect to homepage after successful login
+  
     } catch (err) {
-        console.error('Login error:', err);
-        res.status(500).json({ message: 'Internal server error' });
+      console.error('Login error:', err);
+      res.status(500).render('login', { error: 'An error occurred. Please try again.' });
     }
-});
-
+  });
+  
 
 //route to logout
 router.get('/logout', async (req, res) => {
@@ -69,26 +82,12 @@ router.get('/logout', async (req, res) => {
                 console.error('Error destroying session:', err);
                 return res.status(500).json({ message: 'Internal server error' });
             }
+            
             res.redirect('/');
         });
     } catch (err) {
         res.status(500).json({ message: 'Internal server error' });
     }
-});
-
-
-//route to delete a user
-router.delete('/:id', async (req, res) => {
-    try{
-        const user = await User.findone({ where: { id: req.params.id }});
-        if (!user) {
-            return res.status(404).send({ message: 'user not found'});
-        }
-        await User.destroy({ where: { id: req.params.id}});
-        res.send('user is gonzo');
-    } catch (err) {
-        res.status(500).json({ message: 'you dun messed up A-A-RON'});
-    } 
 });
 
 export default router;

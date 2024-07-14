@@ -3,6 +3,7 @@ import { Comment, Post, User } from '../../models/index.js';
 
 const router = express.Router();
 
+
 router.get('/post-modal/:id', async (req, res) => {
     try {
         console.log(`Attempting to fetch post with id: ${req.params.id}`);
@@ -28,26 +29,24 @@ router.get('/post-modal/:id', async (req, res) => {
     }
 });
 
-
+// This route is responsible for adding comments to a specific post.
 router.post('/', async (req, res) => {
-    console.log('Received POST request to /api/comments');
+    console.log('Received POST request to /api/comment');
     console.log('Request body:', req.body);
     try {
-        const { post_id, body } = req.body;
-        const user_id = req.session.user_id; // Assuming you're using session-based authentication
+        const { post_id, content } = req.body;
+        const user_id = req.session.user_id; 
 
-        if (!post_id || !body) {
-            return res.status(400).json({ message: 'Post ID and comment body are required' });
+        if (!post_id || !content) {
+            return res.status(400).json({ message: 'Post ID and comment content are required' });
         }
 
-        // Create the comment
         const newComment = await Comment.create({
-            content: body,  // Make sure this matches your Comment model
+            content, 
             post_id,
             user_id: user_id || null
         });
 
-        // Fetch the user information if available
         let commentWithUser = newComment.toJSON();
         if (user_id) {
             const user = await User.findByPk(user_id, { attributes: ['username'] });
@@ -68,7 +67,7 @@ router.put('/:commentId', async (req, res) => {
         const { content } = req.body;
         const commentId = req.params.commentId;
 
-        const updated = await Comment.update({ content }, {
+        const updated = await Comment.update({ content }, { 
             where: { id: commentId }
         });
 

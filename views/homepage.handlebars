@@ -1,13 +1,13 @@
 
-
 <main class="container mx-auto px-14 py-8">
     {{#if posts.length}}
     {{#each posts}}
         <div class="post-card cursor-pointer bg-white shadow-md rounded-lg p-6 mb-4 hover:shadow-lg transition duration-300" data-post-id="{{post_id}}">
             <h2 class="text-xl font-bold mb-2">{{title}}</h2>
             <p class="mb-2">{{truncate body 100}}</p>
-            {{#if user_id}}
-                    <p class="text-sm text-gray-600">Posted by: User {{user_id}}</p>
+            {{log this}}
+            {{#if user}}
+                    <p class="text-sm text-gray-600">Posted by: {{user.username}}</p>
                 {{else}}
                     <p class="text-sm text-gray-600">Posted by: Anonymous</p>
             {{/if}}

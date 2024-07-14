@@ -24,9 +24,12 @@ export function attachModalListeners() {
 
 // Function to open the modal and fetch post data
 async function openModal(postId) {
-    console.log('Opening modal for post:', postId);
     try {
         const response = await fetch(`/api/posts/${postId}`);
+        if (response.redirected){
+            window.location.href = response.url
+            return
+        }
         if (response.ok) {
             const post = await response.json();
             populateModal(post);
@@ -44,7 +47,7 @@ function populateModal(post) {
     console.log('Populating modal with post:', post);
     document.getElementById('modalTitle').textContent = post.title;
     document.getElementById('modalBody').textContent = post.body;
-    document.getElementById('modalUsername').textContent = post.user ? post.user.username : 'Anonymous';
+    document.getElementById('modalUsername').textContent = post.username || 'Anonymous';
     document.getElementById('modalDate').textContent = new Date(post.createdAt).toLocaleDateString('en-US', { 
         year: 'numeric', 
         month: 'long', 
@@ -53,7 +56,7 @@ function populateModal(post) {
 
     // Populate comments
     const commentsList = document.getElementById('commentsList');
-    commentsList.innerHTML = ''; // Clear existing comments
+
     if (post.comments && post.comments.length > 0) {
         post.comments.forEach(comment => {
             addCommentToUI(comment);
@@ -69,28 +72,27 @@ function populateModal(post) {
 // Function to handle comment submission
 async function handleCommentSubmit(event) {
     event.preventDefault();
-    console.log('Comment submit triggered');
     const commentInput = document.getElementById('commentInput');
-    const comment = commentInput.value.trim();
-    const postId = event.target.getAttribute('data-post-id');
+    const content = commentInput.value.trim();  // Changed from 'body' to 'content'
+    const post_id = event.target.getAttribute('data-post-id');
 
-    console.log('Submitting comment:', { postId, comment });
+    console.log('Submitting comment:', { post_id, content });
 
-    if (comment && postId) {
+    if (content && post_id) {
         try {
             const response = await fetch('/api/comment', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ post_id: postId, body: comment }),
+                body: JSON.stringify({ post_id, content }),  // Changed from 'body' to 'content'
             });
 
             if (response.ok) {
                 const newComment = await response.json();
                 console.log('New comment received:', newComment);
                 addCommentToUI(newComment);
-                commentInput.value = ''; // Clear the input
+                commentInput.value = '';
             } else {
                 const errorData = await response.json();
                 console.error('Failed to submit comment:', errorData);
@@ -106,7 +108,25 @@ async function handleCommentSubmit(event) {
     }
 }
 
-// Function to add a comment to the UI
+    // Function to open edit modal and populate it with post data
+    async function openEditModal(postId) {
+        try {
+            const response = await fetch(`/api/posts/${postId}`);
+            if (response.ok) {
+                const post = await response.json();
+                document.getElementById('edit-post-id').value = post.post_id;
+                document.getElementById('edit-post-title').value = post.title;
+                document.getElementById('edit-post-content').value = post.body;
+                editPostModal.style.display = 'block';
+            } else {
+                alert('Failed to fetch post data');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    }
+
+
 function addCommentToUI(comment) {
     console.log('Adding comment to UI:', comment);
     const commentsList = document.getElementById('commentsList');
@@ -118,7 +138,6 @@ function addCommentToUI(comment) {
     `;
     commentsList.insertBefore(commentElement, commentsList.firstChild);
 
-    // If there was a "No comments yet" message, remove it
     const noCommentsMessage = commentsList.querySelector('p.text-gray-500');
     if (noCommentsMessage) {
         noCommentsMessage.remove();

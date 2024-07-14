@@ -5,27 +5,31 @@ document.addEventListener('DOMContentLoaded', () => {
     const closeEditModalBtn = document.getElementById('close-edit-modal');
 
     // Event listener for creating a new post
-    newPostForm.addEventListener('submit', async (e) => {
+    document.getElementById('new-post-form').addEventListener('submit', async (e) => {
         e.preventDefault();
         const title = document.getElementById('post-title').value;
-        const content = document.getElementById('post-content').value;
-
+        const body = document.getElementById('post-content').value;
+    
         try {
-            const response = await fetch('/api/posts', {
+            const response = await fetch('/api/posts/create', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ title, body: content }),
+                body: JSON.stringify({ title, body }),
             });
-
+    
             if (response.ok) {
-                window.location.reload(); // Refresh the page to show the new post
+                alert('Post created with great success!');
+                // Redirect to the dashboard
+                window.location.href = '/dashboard';
             } else {
-                alert('Failed to create post');
+                const data = await response.json();
+                alert(data.message || 'Failed to create post');
             }
         } catch (error) {
             console.error('Error:', error);
+            alert('An error occurred while creating the post');
         }
     });
 
@@ -50,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const response = await fetch(`/api/posts/${postId}`);
             if (response.ok) {
                 const post = await response.json();
-                document.getElementById('edit-post-id').value = post.id;
+                document.getElementById('edit-post-id').value = post.post_id;
                 document.getElementById('edit-post-title').value = post.title;
                 document.getElementById('edit-post-content').value = post.body;
                 editPostModal.style.display = 'block';
@@ -67,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
         const postId = document.getElementById('edit-post-id').value;
         const title = document.getElementById('edit-post-title').value;
-        const content = document.getElementById('edit-post-content').value;
+        const body = document.getElementById('edit-post-content').value;
 
         try {
             const response = await fetch(`/api/posts/${postId}`, {
@@ -75,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ title, body: content }),
+                body: JSON.stringify({ title, body }),
             });
 
             if (response.ok) {
@@ -120,3 +124,4 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
