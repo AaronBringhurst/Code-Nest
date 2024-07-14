@@ -4,14 +4,13 @@ import seedPosts from "./seedPosts.js";
 
 const seedAll = async () => {
     try {
-        await sequelize.sync({ force: true });  // Sync models with the database, recreating tables
+        await sequelize.sync({ force: true });
         await seedPosts();
         await seedUsers();
-        console.log('Seeding completed successfully');
     } catch (err) {
         console.error('Error during seeding:', err);
     } finally {
-        await sequelize.close();  // Don't forget to close the connection
+        await sequelize.close();
     }
 };
 

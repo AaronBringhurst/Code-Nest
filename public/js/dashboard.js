@@ -21,7 +21,6 @@ document.addEventListener('DOMContentLoaded', () => {
     
             if (response.ok) {
                 alert('Post created with great success!');
-                // Redirect to the dashboard
                 window.location.href = '/dashboard';
             } else {
                 const data = await response.json();
@@ -84,7 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (response.ok) {
                 editPostModal.style.display = 'none';
-                window.location.reload(); // Refresh the page to show the updated post
+                window.location.reload();
             } else {
                 alert('Failed to update post');
             }
@@ -102,7 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
 
                 if (response.ok) {
-                    window.location.reload(); // Refresh the page to remove the deleted post
+                    window.location.reload();
                 } else {
                     alert('Failed to delete post');
                 }

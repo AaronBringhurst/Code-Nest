@@ -11,9 +11,9 @@ const withAuth = (req, res, next) => {
   }
 };
 
+//this route loads the dashboard for a logged in user
 router.get('/dashboard', withAuth, async (req, res) => {
     try {
-      // Find all posts for the logged-in user
       const postData = await Post.findAll({
         where: {
           user_id: req.session.user_id
@@ -26,12 +26,8 @@ router.get('/dashboard', withAuth, async (req, res) => {
         ],
         order: [['createdAt', 'DESC']]
       });
-  
-      // Serialize data so the template can read it
+
       const posts = postData.map((post) => post.get({ plain: true }));
-  
-      console.log('Posts for dashboard:', posts);  // Add this for debugging
-      console.log('Number of posts:', posts.length);
 
       const templateData = {
         posts,
@@ -40,17 +36,14 @@ router.get('/dashboard', withAuth, async (req, res) => {
       };
       console.log('Data being passed to template:', templateData);
       res.render('dashboard', templateData);
-    /*res.render('dashboard', {
-        posts,
-        logged_in: true,
-        username: req.session.username
-      });*/
+
     } catch (err) {
       console.error('Error fetching dashboard data:', err);
       res.status(500).json(err);
     }
   });
 
+// this route loads the homepage
 router.get('/', async (req, res) => {
     try {
       const posts = await Post.findAll({
@@ -75,19 +68,17 @@ router.get('/', async (req, res) => {
       res.status(500).render('error', { error: 'Failed to load posts' });
     }
   });
-  
-  router.get('/login', (req, res) => {
-    if (req.session.logged_in) {
-      res.redirect('/');
-      return;
-    }
-    res.render('login');
-  });
 
-router.get("/login", (req, res) => {
-  res.render("login", { title: "Login" });
+//this gets the login page
+router.get('/login', (req, res) => {
+  if (req.session.logged_in) {
+    res.redirect('/');
+    return;
+  }
+  res.render('login');
 });
 
+//this route gets the about page
 router.get("/about", (req, res) => {
   res.render("about");
 });

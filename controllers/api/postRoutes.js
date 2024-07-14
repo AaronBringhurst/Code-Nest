@@ -4,29 +4,26 @@ import { Post, Comment, User } from '../../models/index.js';
 
 const router = express.Router();
 
+//this route creates a post
 router.post('/create', async (req, res) => {
     try {
-        // Check if user is logged in
         if (!req.session.user_id) {
             return res.status(401).json({ message: 'You must be logged in to create a post.' });
         }
 
-        console.log('Request body:', req.body);
         if (!req.body.title || !req.body.body) {
             return res.status(400).json({ message: 'Title and body are required.' });
         }
 
-        // Get the user's information from the database
         const user = await User.findByPk(req.session.user_id);
         if (!user) {
             return res.status(404).json({ message: 'User not found.' });
         }
-        console.log(req.session.user_id)
         const newPost = await Post.create({
-            username: user.username, // Use the username from the database
+            username: user.username,
             title: req.body.title,
             body: req.body.body,
-            user_id: req.session.user_id, // Associate the post with the logged-in user
+            user_id: req.session.user_id,
             date: new Date()
         });
 
@@ -91,6 +88,7 @@ router.get('/:id', async (req, res) => {
     }
 });
 
+//this route allows the user to make changes to there post
 router.put('/:id', async (req, res) => {
     try {
         const updatedPost = await Post.update(req.body, {
@@ -111,6 +109,7 @@ router.put('/:id', async (req, res) => {
     }
 });
 
+//this route allows the user to delete a post they made
 router.delete('/:id', async (req, res) => {
     try {
         const deletedPost = await Post.destroy({

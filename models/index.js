@@ -2,7 +2,6 @@ import User from './user.js';
 import Post from './post.js';
 import Comment from './comment.js';
 
-// Define relationships
 User.hasMany(Post, {
     foreignKey: 'user_id',
     onDelete: 'CASCADE'

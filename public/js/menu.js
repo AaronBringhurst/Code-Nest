@@ -1,3 +1,4 @@
+//adds mobile hamburger menu and brings in some animations
 document.addEventListener('DOMContentLoaded', function() {
     const menuToggle = document.getElementById('menu-toggle');
     const mobileMenu = document.getElementById('mobile-menu');
@@ -5,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
     menuToggle.addEventListener('click', function() {
       mobileMenu.classList.toggle('hidden');
       
-      // Add smooth height animation
+      
       if (mobileMenu.classList.contains('hidden')) {
         mobileMenu.style.maxHeight = '0px';
       } else {

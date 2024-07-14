@@ -5,6 +5,8 @@ import sequelize from 'sequelize';
 
 const router = express.Router();
 
+
+//this route lets a user signup for the website and create an account
 router.post('/signup', async (req, res) => {
     try {
         const { username, email, password, name } = req.body;
@@ -30,12 +32,10 @@ router.post('/signup', async (req, res) => {
             password: hashedPassword
         });
 
-        // Automatically log in the user
         req.session.user_id = newUser.id;
         req.session.username = newUser.username;
         req.session.logged_in = true;
 
-        // Save the session before redirecting
         req.session.save(() => {
             res.redirect('/');
         });
@@ -45,33 +45,33 @@ router.post('/signup', async (req, res) => {
     }
 });
 
+//this route allows a user who has already made an account to sign in
 router.post('/login', async (req, res) => {
     try {
-      const { username, password } = req.body;
-      const user = await User.findOne({ where: { username } });
-  
-      if (!user) {
+        const { username, password } = req.body;
+        const user = await User.findOne({ where: { username } });
+
+    if (!user) {
         return res.status(400).render('login', { error: 'Incorrect username or password' });
-      }
-  
-      const validPassword = await bcrypt.compare(password, user.password);
-  
-      if (!validPassword) {
-        return res.status(400).render('login', { error: 'Incorrect username or password' });
-      }
-  
-      req.session.user_id = user.user_id;
-      req.session.username = user.username;
-      req.session.logged_in = true;
-  
-      res.redirect('/'); // Redirect to homepage after successful login
-  
-    } catch (err) {
-      console.error('Login error:', err);
-      res.status(500).render('login', { error: 'An error occurred. Please try again.' });
     }
-  });
-  
+
+        const validPassword = await bcrypt.compare(password, user.password);
+        
+    if (!validPassword) {
+        return res.status(400).render('login', { error: 'Incorrect username or password' });
+    }
+
+    req.session.user_id = user.user_id;
+    req.session.username = user.username;
+    req.session.logged_in = true;  
+    res.redirect('/');
+
+    } catch (err) {
+        console.error('Login error:', err);
+        res.status(500).render('login', { error: 'An error occurred. Please try again.' });
+    }
+});
+
 
 //route to logout
 router.get('/logout', async (req, res) => {

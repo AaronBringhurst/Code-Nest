@@ -1,132 +1,102 @@
-# 14 Model-View-Controller (MVC): Tech Blog
+# Code Nest
 
-## Your Task
+## Description
+Code Nest is a dynamic web application designed to foster a community of developers and tech enthusiasts. It provides a platform for users to share, discuss, and collaborate on crypto-related topics. With features like user authentication, post creation, and commenting, Code Nest aims to be a hub for knowledge sharing in the tech world.
 
-Writing about tech can be just as important as making it. Developers spend plenty of time creating new applications and debugging existing codebases, but most developers also spend at least some of their time reading and writing about technical concepts, recent advancements, and new technologies. A simple Google search for any concept covered in this course returns thousands of think pieces and tutorials from developers of all skill levels!
+## Table of Contents
+- [Installation](#installation)
+- [Screenshots](#screenshots)
+- [Usage](#usage)
+- [Technologies](#technologies)
+- [License](#license)
+- [Contributing](#contributing)
+- [Questions](#questions)
 
-Your task this week is to build a CMS-style blog site similar to a Wordpress site, where developers can publish their blog posts and comment on other developers’ posts as well. You’ll build this site completely from scratch and deploy it to Render. Your app will follow the MVC paradigm in its architectural structure, using Handlebars.js as the templating language, Sequelize as the ORM, and the express-session npm package for authentication.
+## Installation
+To get started with Code Nest, follow these steps:
 
-## User Story
+1. Clone the repository:
+   ```
+   git clone https://github.com/your-github-username/code-nest.git
+   cd code-nest
+   ```
 
-```md
-AS A developer who writes about tech
-I WANT a CMS-style blog site
-SO THAT I can publish articles, blog posts, and my thoughts and opinions
-```
+2. Install dependencies:
+   ```
+   npm install
+   ```
 
-## Acceptance Criteria
+3. Create a `.env` file in the root directory and add your environment variables:
+   ```
+   DB_NAME='your_database_name'
+   DB_USER='your_database_username'
+   DB_PASSWORD='your_database_password'
+   DB_HOST='localhost'
+   SESSION_SECRET='your_session_secret'
+   ```
 
-```md
-GIVEN a CMS-style blog site
-WHEN I visit the site for the first time
-THEN I am presented with the homepage, which includes existing blog posts if any have been posted; navigation links for the homepage and the dashboard; and the option to log in
-WHEN I click on the homepage option
-THEN I am taken to the homepage
-WHEN I click on any other links in the navigation
-THEN I am prompted to either sign up or sign in
-WHEN I choose to sign up
-THEN I am prompted to create a username and password
-WHEN I click on the sign-up button
-THEN my user credentials are saved and I am logged into the site
-WHEN I revisit the site at a later time and choose to sign in
-THEN I am prompted to enter my username and password
-WHEN I am signed in to the site
-THEN I see navigation links for the homepage, the dashboard, and the option to log out
-WHEN I click on the homepage option in the navigation
-THEN I am taken to the homepage and presented with existing blog posts that include the post title and the date created
-WHEN I click on an existing blog post
-THEN I am presented with the post title, contents, post creator’s username, and date created for that post and have the option to leave a comment
-WHEN I enter a comment and click on the submit button while signed in
-THEN the comment is saved and the post is updated to display the comment, the comment creator’s username, and the date created
-WHEN I click on the dashboard option in the navigation
-THEN I am taken to the dashboard and presented with any blog posts I have already created and the option to add a new blog post
-WHEN I click on the button to add a new blog post
-THEN I am prompted to enter both a title and contents for my blog post
-WHEN I click on the button to create a new blog post
-THEN the title and contents of my post are saved and I am taken back to an updated dashboard with my new blog post
-WHEN I click on one of my existing posts in the dashboard
-THEN I am able to delete or update my post and taken back to an updated dashboard
-WHEN I click on the logout option in the navigation
-THEN I am signed out of the site
-WHEN I am idle on the site for more than a set time
-THEN I am able to view posts and comments but I am prompted to log in again before I can add, update, or delete posts
-```
+4. Set up the database:
+   ```
+   npm run db:create
+   npm run db:migrate
+   npm run db:seed
+   ```
 
-## Mock-Up
+5. Start the application:
+   ```
+   npm start
+   ```
 
-The following animation demonstrates the application functionality:
+## Screenshots
 
-![Animation cycles through signing into the app, clicking on buttons, and updating blog posts.](./Assets/14-mvc-homework-demo-01.gif)
+![Homepage](/public/images/homepage.png "Code Nest Homepage")
 
-## Getting Started
+![Dashboard](/public/images/dashboard.png "User Dashboard")
 
-Your application’s folder structure must follow the Model-View-Controller paradigm. You’ll need to use the [express-handlebars](https://www.npmjs.com/package/express-handlebars) package to implement Handlebars.js for your Views, use the [pg](https://www.npmjs.com/package/pg) and [Sequelize](https://www.npmjs.com/package/sequelize) packages to connect to a PostgreSQL database for your Models, and create an Express.js API for your Controllers.
+![Create Listing](/public/images/Create_Listing.png "Create a New Post")
 
-You’ll also need the [dotenv package](https://www.npmjs.com/package/dotenv) to use environment variables, the [bcrypt package](https://www.npmjs.com/package/bcrypt) to hash passwords, and the [express-session](https://www.npmjs.com/package/express-session) and [connect-session-sequelize](https://www.npmjs.com/package/connect-session-sequelize) packages to add authentication.
+![Mobile View](/public/images/mobileView.png "Mobile Responsive Design")
 
-**Note**: The [express-session](https://www.npmjs.com/package/express-session) package stores the session data on the client in a cookie. When you are idle on the site for more than a set time, the cookie will expire and you will be required to log in again to start a new session. This is the default behavior and you do not have to do anything to your application other than implement the npm package.
+## Usage
 
-## Grading Requirements
+After installation, navigate to `http://localhost:3001` in your web browser. Here's how to use Code Nest:
 
-> **Note**: If a Challenge assignment submission is marked as “0”, it is considered incomplete and will not count towards your graduation requirements. Examples of incomplete submissions include the following:
->
-> * A repository that has no code
->
-> * A repository that includes a unique name but nothing else
->
-> * A repository that includes only a README file but nothing else
->
-> * A repository that only includes starter code
+1. Sign Up/Login: Create an account or log in to access all features.
+2. Browse Posts: Explore posts from other users on the homepage.
+3. Create Posts: Share your knowledge by creating new posts.
+4. Comment: Engage in discussions by commenting on posts.
+5. Dashboard: Manage your posts and view your activity.
 
-This Challenge is graded based on the following criteria:
+## Technologies
 
-### Technical Acceptance Criteria: 40%
+Code Nest is built with the following technologies:
 
-* Satisfies all of the preceding acceptance criteria plus the following:
+- **[Node.js](https://nodejs.org/)**: Runtime environment
+- **[Express.js](https://expressjs.com/)**: Web application framework
+- **[Sequelize](https://sequelize.org/)**: ORM for database management
+- **[PostgreSQL](https://www.postgresql.org/)**: Database system
+- **[Handlebars.js](https://handlebarsjs.com/)**: Templating engine
+- **[bcrypt](https://www.npmjs.com/package/bcrypt)**: Password hashing
+- **[express-session](https://www.npmjs.com/package/express-session)**: Session management
+- **[Tailwind CSS](https://tailwindcss.com/)**: Utility-first CSS framework
 
-  * Application’s folder structure follows the Model-View-Controller paradigm.
+## License
+This project is licensed under the [MIT License](https://opensource.org/licenses/MIT).
 
-  * Uses the [express-handlebars](https://www.npmjs.com/package/express-handlebars) package to implement Handlebars.js for your Views.
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-  * Application must be deployed to Render.
+## Contributing
+Contributions to Code Nest are welcome! Here's how you can contribute:
 
-### Deployment: 32%
+1. Fork the repository
+2. Create a new branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-* Application deployed at live URL.
+## Questions
+If you have any questions about the project, feel free to reach out:
 
-* Application loads with no errors.
+- GitHub: [Aaron Bringhurst](https://github.com/AaronBringhurst)
+- Email: bringhurst.aaron@gmail.com
 
-* Application GitHub URL submitted.
-
-* GitHub repository contains application code.
-
-### Application Quality: 15%
-
-* User experience is intuitive and easy to navigate.
-
-* User interface style is clean and polished.
-
-* Application resembles the mock-up functionality provided in the Challenge instructions.
-
-### Repository Quality: 13%
-
-* Repository has a unique name.
-
-* Repository follows best practices for file structure and naming conventions.
-
-* Repository follows best practices for class/id naming conventions, indentation, quality comments, etc.
-
-* Repository contains multiple descriptive commit messages.
-
-* Repository contains quality readme file with description, screenshot, and link to deployed application.
-
-## Review
-
-You are required to submit BOTH of the following for review:
-
-* The URL of the functional, deployed application.
-
-* The URL of the GitHub repository, with a unique name and a readme describing the project.
-
----
-© 2024 edX Boot Camps LLC. Confidential and Proprietary. All Rights Reserved.

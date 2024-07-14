@@ -65,7 +65,6 @@ function populateModal(post) {
         commentsList.innerHTML = '<p class="text-sm text-gray-500">No comments yet.</p>';
     }
 
-    // Set the post_id on the form for new comments
     document.getElementById('commentForm').setAttribute('data-post-id', post.post_id);
 }
 
@@ -73,10 +72,8 @@ function populateModal(post) {
 async function handleCommentSubmit(event) {
     event.preventDefault();
     const commentInput = document.getElementById('commentInput');
-    const content = commentInput.value.trim();  // Changed from 'body' to 'content'
+    const content = commentInput.value.trim();
     const post_id = event.target.getAttribute('data-post-id');
-
-    console.log('Submitting comment:', { post_id, content });
 
     if (content && post_id) {
         try {
@@ -85,12 +82,11 @@ async function handleCommentSubmit(event) {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ post_id, content }),  // Changed from 'body' to 'content'
+                body: JSON.stringify({ post_id, content }),
             });
 
             if (response.ok) {
                 const newComment = await response.json();
-                console.log('New comment received:', newComment);
                 addCommentToUI(newComment);
                 commentInput.value = '';
             } else {
@@ -99,36 +95,15 @@ async function handleCommentSubmit(event) {
                 alert('Failed to submit comment. Please try again.');
             }
         } catch (error) {
-            console.error('Error submitting comment:', error);
             alert('An error occurred while submitting the comment. Please try again.');
         }
     } else {
-        console.error('Invalid comment or post ID');
         alert('Please enter a comment before submitting.');
     }
 }
 
-    // Function to open edit modal and populate it with post data
-    async function openEditModal(postId) {
-        try {
-            const response = await fetch(`/api/posts/${postId}`);
-            if (response.ok) {
-                const post = await response.json();
-                document.getElementById('edit-post-id').value = post.post_id;
-                document.getElementById('edit-post-title').value = post.title;
-                document.getElementById('edit-post-content').value = post.body;
-                editPostModal.style.display = 'block';
-            } else {
-                alert('Failed to fetch post data');
-            }
-        } catch (error) {
-            console.error('Error:', error);
-        }
-    }
-
-
+//this function build the comments to the modal
 function addCommentToUI(comment) {
-    console.log('Adding comment to UI:', comment);
     const commentsList = document.getElementById('commentsList');
     const commentElement = document.createElement('div');
     commentElement.className = 'bg-gray-100 p-2 rounded mb-2';

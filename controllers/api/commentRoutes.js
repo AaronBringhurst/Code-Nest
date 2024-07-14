@@ -3,24 +3,22 @@ import { Comment, Post, User } from '../../models/index.js';
 
 const router = express.Router();
 
-
+//this route grabs the post id so it can populate the data inside the modal
 router.get('/post-modal/:id', async (req, res) => {
     try {
-        console.log(`Attempting to fetch post with id: ${req.params.id}`);
         const post = await Post.findByPk(req.params.id, {
             include: [
                 { model: User, attributes: ['username'] },
                 { model: Comment, include: [{ model: User, attributes: ['username'] }] }
             ]
         });
+
         if (post) {
-            console.log('Post found, rendering template');
             res.render('partials/postModalContent', { 
                 layout: false,
                 post: post.get({ plain: true })
             });
         } else {
-            console.log('Post not found');
             res.status(404).json({ message: 'Post not found' });
         }
     } catch (err) {
@@ -62,6 +60,7 @@ router.post('/', async (req, res) => {
     }
 });
 
+//This route updates a comment
 router.put('/:commentId', async (req, res) => {
     try {
         const { content } = req.body;
@@ -82,6 +81,7 @@ router.put('/:commentId', async (req, res) => {
     }
 });
 
+//this route deletes a comment
 router.delete('/:commentId', async (req, res) => {
     try {
         const commentId = req.params.commentId;
